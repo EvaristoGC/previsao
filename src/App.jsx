@@ -1,12 +1,30 @@
+import { useState, useRef } from 'react'
+import axios from 'axios'
+
+import WeatherInformations from './components/weatherInformations/weatherInformations'
+
 import './App.css'
-import { useState } from 'react'
 
 function App() {
+  const [weather, setWeather] = useState({})
+  const inputRef = useRef()
+
+  const searchCity = async () =>{
+    const cityName = inputRef.current.value
+    const api_key = import.meta.env.VITE_API_KEY
+    const url = `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=${api_key}&lang=pt&units=metric`
+
+    const apiInfo = await axios.get(url)
+    setWeather(apiInfo.data)
+    
+  }
+
   return (
     <div>
       <h1>Previsão do Tempo</h1>
-        <input type="text" placeholder='Digite o nome da cidade' />
-        <button>Buscar</button>
+        <input ref={inputRef} type="text" placeholder='Digite o nome da cidade' />
+        <button onClick={searchCity}>Buscar</button>
+        <WeatherInformations city={weather} />
     </div>
   )
 }
