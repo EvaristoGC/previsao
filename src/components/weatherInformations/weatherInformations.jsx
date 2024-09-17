@@ -3,6 +3,7 @@ import './WeatherInformations.css'
 
 
 function WeatherInformations({ city }) {
+    
     return (
         <div className='weather-container'>
             <h2>{city.name}</h2>
